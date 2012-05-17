@@ -5,7 +5,7 @@ set -e
 function antlr {
     case "$1" in
         generate)
-            java org.antlr.Tool src/java/antlr_intro/grammars/Expr.g
+            find src/java -name \*.g -exec java org.antlr.Tool {} \+
             ;;
         compile)
             find src/java -name \*.java -exec javac -d parslex {} \+

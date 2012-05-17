@@ -1,10 +1,9 @@
 (ns antlr-intro.core
   (:import [org.antlr.runtime ANTLRInputStream CommonTokenStream]
-           [antlr_intro.grammars ExprLexer ExprParser]))
+           [org.antlr.runtime.tree CommonTree CommonTreeNodeStream]
+           [antlr_intro.grammars ExprLexer ExprParser Eval]))
 
 (defn -main []
-  (let [input (ANTLRInputStream. System/in)
-        lexer (ExprLexer. input)
-        tokens (CommonTokenStream. lexer)
-        parser (ExprParser. tokens)]
-    (.prog parser)))
+  (let [parser (-> System/in ANTLRInputStream. ExprLexer. CommonTokenStream. ExprParser.)
+        walker (-> (.. parser prog getTree) CommonTreeNodeStream. Eval.)]
+    (.prog walker)))

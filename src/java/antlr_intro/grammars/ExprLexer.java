@@ -1,4 +1,4 @@
-// $ANTLR 3.4 src/java/antlr_intro/grammars/Expr.g 2012-05-16 22:49:40
+// $ANTLR 3.4 src/java/antlr_intro/grammars/Expr.g 2012-05-17 00:17:51
 package antlr_intro.grammars;
 
 import org.antlr.runtime.*;
@@ -166,10 +166,10 @@ public class ExprLexer extends Lexer {
         try {
             int _type = ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // src/java/antlr_intro/grammars/Expr.g:45:5: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ )
-            // src/java/antlr_intro/grammars/Expr.g:45:7: ( 'a' .. 'z' | 'A' .. 'Z' )+
+            // src/java/antlr_intro/grammars/Expr.g:38:5: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ )
+            // src/java/antlr_intro/grammars/Expr.g:38:7: ( 'a' .. 'z' | 'A' .. 'Z' )+
             {
-            // src/java/antlr_intro/grammars/Expr.g:45:7: ( 'a' .. 'z' | 'A' .. 'Z' )+
+            // src/java/antlr_intro/grammars/Expr.g:38:7: ( 'a' .. 'z' | 'A' .. 'Z' )+
             int cnt1=0;
             loop1:
             do {
@@ -224,10 +224,10 @@ public class ExprLexer extends Lexer {
         try {
             int _type = INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // src/java/antlr_intro/grammars/Expr.g:46:5: ( ( '0' .. '9' )+ )
-            // src/java/antlr_intro/grammars/Expr.g:46:7: ( '0' .. '9' )+
+            // src/java/antlr_intro/grammars/Expr.g:39:5: ( ( '0' .. '9' )+ )
+            // src/java/antlr_intro/grammars/Expr.g:39:7: ( '0' .. '9' )+
             {
-            // src/java/antlr_intro/grammars/Expr.g:46:7: ( '0' .. '9' )+
+            // src/java/antlr_intro/grammars/Expr.g:39:7: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -282,10 +282,10 @@ public class ExprLexer extends Lexer {
         try {
             int _type = NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // src/java/antlr_intro/grammars/Expr.g:47:8: ( ( '\\r' )? '\\n' )
-            // src/java/antlr_intro/grammars/Expr.g:47:10: ( '\\r' )? '\\n'
+            // src/java/antlr_intro/grammars/Expr.g:40:8: ( ( '\\r' )? '\\n' )
+            // src/java/antlr_intro/grammars/Expr.g:40:10: ( '\\r' )? '\\n'
             {
-            // src/java/antlr_intro/grammars/Expr.g:47:10: ( '\\r' )?
+            // src/java/antlr_intro/grammars/Expr.g:40:10: ( '\\r' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -294,7 +294,7 @@ public class ExprLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // src/java/antlr_intro/grammars/Expr.g:47:10: '\\r'
+                    // src/java/antlr_intro/grammars/Expr.g:40:10: '\\r'
                     {
                     match('\r'); 
 
@@ -322,10 +322,10 @@ public class ExprLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // src/java/antlr_intro/grammars/Expr.g:48:5: ( ( ' ' | '\\t' )+ )
-            // src/java/antlr_intro/grammars/Expr.g:48:7: ( ' ' | '\\t' )+
+            // src/java/antlr_intro/grammars/Expr.g:41:5: ( ( ' ' | '\\t' )+ )
+            // src/java/antlr_intro/grammars/Expr.g:41:7: ( ' ' | '\\t' )+
             {
-            // src/java/antlr_intro/grammars/Expr.g:48:7: ( ' ' | '\\t' )+
+            // src/java/antlr_intro/grammars/Expr.g:41:7: ( ' ' | '\\t' )+
             int cnt4=0;
             loop4:
             do {

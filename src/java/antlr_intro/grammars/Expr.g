@@ -1,4 +1,8 @@
 grammar Expr;
+options {
+    output=AST;
+    ASTLabelType=CommonTree;
+}
 
 @header {
 package antlr_intro.grammars;
@@ -12,34 +16,23 @@ HashMap memory = new HashMap();
 
 @lexer::header {package antlr_intro.grammars;}
 
-prog: stat+ ;
+prog:   ( stat {System.out.println($stat.tree==null?"null":$stat.tree.toStringTree());} )+ ;
 
-stat: expr NEWLINE {System.out.println($expr.value);}
-    | ID '=' expr NEWLINE {memory.put($ID.text, new Integer($expr.value));}
-    | NEWLINE
+stat:   expr NEWLINE        -> expr
+    |   ID '=' expr NEWLINE -> ^('=' ID expr)
+    |   NEWLINE             ->
     ;
 
-expr returns [int value]
-    :   e=multExpr {$value = $e.value;}
-        (   '+' e=multExpr {$value += $e.value;}
-        |   '-' e=multExpr {$value -= $e.value;}
-        )*
+expr:   multExpr (('+'^|'-'^) multExpr)*
     ;
 
-multExpr returns [int value]
-    : e=atom {$value = $e.value;} ('*' e=atom {$value *= $e.value;})*
+multExpr
+    :   atom ('*'^ atom)*
     ;
 
-atom returns [int value]
-    : INT {$value = Integer.parseInt($INT.text);}
-    | ID 
-        { 
-            Integer v = (Integer)memory.get($ID.text);
-            if (v!=null) $value = v.intValue();
-            else System.err.println("undefined variable "+$ID.text);
-        }
-
-    | '(' expr ')' {$value = $expr.value;}
+atom:   INT
+    |   ID
+    |   '('! expr ')'!
     ;
 
 ID  : ('a'..'z'|'A'..'Z')+ ;

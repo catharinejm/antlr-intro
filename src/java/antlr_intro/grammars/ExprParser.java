@@ -1,4 +1,4 @@
-// $ANTLR 3.4 src/java/antlr_intro/grammars/Expr.g 2012-05-16 22:49:40
+// $ANTLR 3.4 src/java/antlr_intro/grammars/Expr.g 2012-05-17 00:17:51
 
 package antlr_intro.grammars;
 
@@ -9,6 +9,9 @@ import org.antlr.runtime.*;
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
+
+import org.antlr.runtime.tree.*;
+
 
 @SuppressWarnings({"all", "warnings", "unchecked"})
 public class ExprParser extends Parser {
@@ -43,6 +46,14 @@ public class ExprParser extends Parser {
         super(input, state);
     }
 
+protected TreeAdaptor adaptor = new CommonTreeAdaptor();
+
+public void setTreeAdaptor(TreeAdaptor adaptor) {
+    this.adaptor = adaptor;
+}
+public TreeAdaptor getTreeAdaptor() {
+    return adaptor;
+}
     public String[] getTokenNames() { return ExprParser.tokenNames; }
     public String getGrammarFileName() { return "src/java/antlr_intro/grammars/Expr.g"; }
 
@@ -50,15 +61,33 @@ public class ExprParser extends Parser {
     HashMap memory = new HashMap();
 
 
+    public static class prog_return extends ParserRuleReturnScope {
+        CommonTree tree;
+        public Object getTree() { return tree; }
+    };
+
 
     // $ANTLR start "prog"
-    // src/java/antlr_intro/grammars/Expr.g:15:1: prog : ( stat )+ ;
-    public final void prog() throws RecognitionException {
+    // src/java/antlr_intro/grammars/Expr.g:19:1: prog : ( stat )+ ;
+    public final ExprParser.prog_return prog() throws RecognitionException {
+        ExprParser.prog_return retval = new ExprParser.prog_return();
+        retval.start = input.LT(1);
+
+
+        CommonTree root_0 = null;
+
+        ExprParser.stat_return stat1 =null;
+
+
+
         try {
-            // src/java/antlr_intro/grammars/Expr.g:15:5: ( ( stat )+ )
-            // src/java/antlr_intro/grammars/Expr.g:15:7: ( stat )+
+            // src/java/antlr_intro/grammars/Expr.g:19:5: ( ( stat )+ )
+            // src/java/antlr_intro/grammars/Expr.g:19:9: ( stat )+
             {
-            // src/java/antlr_intro/grammars/Expr.g:15:7: ( stat )+
+            root_0 = (CommonTree)adaptor.nil();
+
+
+            // src/java/antlr_intro/grammars/Expr.g:19:9: ( stat )+
             int cnt1=0;
             loop1:
             do {
@@ -72,13 +101,16 @@ public class ExprParser extends Parser {
 
                 switch (alt1) {
             	case 1 :
-            	    // src/java/antlr_intro/grammars/Expr.g:15:7: stat
+            	    // src/java/antlr_intro/grammars/Expr.g:19:11: stat
             	    {
-            	    pushFollow(FOLLOW_stat_in_prog30);
-            	    stat();
+            	    pushFollow(FOLLOW_stat_in_prog56);
+            	    stat1=stat();
 
             	    state._fsp--;
 
+            	    adaptor.addChild(root_0, stat1.getTree());
+
+            	    System.out.println((stat1!=null?((CommonTree)stat1.tree):null)==null?"null":(stat1!=null?((CommonTree)stat1.tree):null).toStringTree());
 
             	    }
             	    break;
@@ -95,32 +127,64 @@ public class ExprParser extends Parser {
 
             }
 
+            retval.stop = input.LT(-1);
+
+
+            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
+    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
         }
 
         finally {
         	// do for sure before leaving
         }
-        return ;
+        return retval;
     }
     // $ANTLR end "prog"
 
 
+    public static class stat_return extends ParserRuleReturnScope {
+        CommonTree tree;
+        public Object getTree() { return tree; }
+    };
+
 
     // $ANTLR start "stat"
-    // src/java/antlr_intro/grammars/Expr.g:17:1: stat : ( expr NEWLINE | ID '=' expr NEWLINE | NEWLINE );
-    public final void stat() throws RecognitionException {
-        Token ID2=null;
-        int expr1 =0;
-
-        int expr3 =0;
+    // src/java/antlr_intro/grammars/Expr.g:21:1: stat : ( expr NEWLINE -> expr | ID '=' expr NEWLINE -> ^( '=' ID expr ) | NEWLINE ->);
+    public final ExprParser.stat_return stat() throws RecognitionException {
+        ExprParser.stat_return retval = new ExprParser.stat_return();
+        retval.start = input.LT(1);
 
 
+        CommonTree root_0 = null;
+
+        Token NEWLINE3=null;
+        Token ID4=null;
+        Token char_literal5=null;
+        Token NEWLINE7=null;
+        Token NEWLINE8=null;
+        ExprParser.expr_return expr2 =null;
+
+        ExprParser.expr_return expr6 =null;
+
+
+        CommonTree NEWLINE3_tree=null;
+        CommonTree ID4_tree=null;
+        CommonTree char_literal5_tree=null;
+        CommonTree NEWLINE7_tree=null;
+        CommonTree NEWLINE8_tree=null;
+        RewriteRuleTokenStream stream_NEWLINE=new RewriteRuleTokenStream(adaptor,"token NEWLINE");
+        RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
+        RewriteRuleTokenStream stream_13=new RewriteRuleTokenStream(adaptor,"token 13");
+        RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         try {
-            // src/java/antlr_intro/grammars/Expr.g:17:5: ( expr NEWLINE | ID '=' expr NEWLINE | NEWLINE )
+            // src/java/antlr_intro/grammars/Expr.g:21:5: ( expr NEWLINE -> expr | ID '=' expr NEWLINE -> ^( '=' ID expr ) | NEWLINE ->)
             int alt2=3;
             switch ( input.LA(1) ) {
             case INT:
@@ -163,198 +227,257 @@ public class ExprParser extends Parser {
 
             switch (alt2) {
                 case 1 :
-                    // src/java/antlr_intro/grammars/Expr.g:17:7: expr NEWLINE
+                    // src/java/antlr_intro/grammars/Expr.g:21:9: expr NEWLINE
                     {
-                    pushFollow(FOLLOW_expr_in_stat39);
-                    expr1=expr();
+                    pushFollow(FOLLOW_expr_in_stat71);
+                    expr2=expr();
 
                     state._fsp--;
 
+                    stream_expr.add(expr2.getTree());
 
-                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat41); 
+                    NEWLINE3=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat73);  
+                    stream_NEWLINE.add(NEWLINE3);
 
-                    System.out.println(expr1);
+
+                    // AST REWRITE
+                    // elements: expr
+                    // token labels: 
+                    // rule labels: retval
+                    // token list labels: 
+                    // rule list labels: 
+                    // wildcard labels: 
+                    retval.tree = root_0;
+                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+
+                    root_0 = (CommonTree)adaptor.nil();
+                    // 21:29: -> expr
+                    {
+                        adaptor.addChild(root_0, stream_expr.nextTree());
+
+                    }
+
+
+                    retval.tree = root_0;
 
                     }
                     break;
                 case 2 :
-                    // src/java/antlr_intro/grammars/Expr.g:18:7: ID '=' expr NEWLINE
+                    // src/java/antlr_intro/grammars/Expr.g:22:9: ID '=' expr NEWLINE
                     {
-                    ID2=(Token)match(input,ID,FOLLOW_ID_in_stat51); 
+                    ID4=(Token)match(input,ID,FOLLOW_ID_in_stat94);  
+                    stream_ID.add(ID4);
 
-                    match(input,13,FOLLOW_13_in_stat53); 
 
-                    pushFollow(FOLLOW_expr_in_stat55);
-                    expr3=expr();
+                    char_literal5=(Token)match(input,13,FOLLOW_13_in_stat96);  
+                    stream_13.add(char_literal5);
+
+
+                    pushFollow(FOLLOW_expr_in_stat98);
+                    expr6=expr();
 
                     state._fsp--;
 
+                    stream_expr.add(expr6.getTree());
 
-                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat57); 
+                    NEWLINE7=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat100);  
+                    stream_NEWLINE.add(NEWLINE7);
 
-                    memory.put((ID2!=null?ID2.getText():null), new Integer(expr3));
+
+                    // AST REWRITE
+                    // elements: ID, expr, 13
+                    // token labels: 
+                    // rule labels: retval
+                    // token list labels: 
+                    // rule list labels: 
+                    // wildcard labels: 
+                    retval.tree = root_0;
+                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+
+                    root_0 = (CommonTree)adaptor.nil();
+                    // 22:29: -> ^( '=' ID expr )
+                    {
+                        // src/java/antlr_intro/grammars/Expr.g:22:32: ^( '=' ID expr )
+                        {
+                        CommonTree root_1 = (CommonTree)adaptor.nil();
+                        root_1 = (CommonTree)adaptor.becomeRoot(
+                        stream_13.nextNode()
+                        , root_1);
+
+                        adaptor.addChild(root_1, 
+                        stream_ID.nextNode()
+                        );
+
+                        adaptor.addChild(root_1, stream_expr.nextTree());
+
+                        adaptor.addChild(root_0, root_1);
+                        }
+
+                    }
+
+
+                    retval.tree = root_0;
 
                     }
                     break;
                 case 3 :
-                    // src/java/antlr_intro/grammars/Expr.g:19:7: NEWLINE
+                    // src/java/antlr_intro/grammars/Expr.g:23:9: NEWLINE
                     {
-                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat67); 
+                    NEWLINE8=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat120);  
+                    stream_NEWLINE.add(NEWLINE8);
+
+
+                    // AST REWRITE
+                    // elements: 
+                    // token labels: 
+                    // rule labels: retval
+                    // token list labels: 
+                    // rule list labels: 
+                    // wildcard labels: 
+                    retval.tree = root_0;
+                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+
+                    root_0 = (CommonTree)adaptor.nil();
+                    // 23:29: ->
+                    {
+                        root_0 = null;
+                    }
+
+
+                    retval.tree = root_0;
 
                     }
                     break;
 
             }
+            retval.stop = input.LT(-1);
+
+
+            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
+    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
         }
 
         finally {
         	// do for sure before leaving
         }
-        return ;
+        return retval;
     }
     // $ANTLR end "stat"
 
 
+    public static class expr_return extends ParserRuleReturnScope {
+        CommonTree tree;
+        public Object getTree() { return tree; }
+    };
+
 
     // $ANTLR start "expr"
-    // src/java/antlr_intro/grammars/Expr.g:22:1: expr returns [int value] : e= multExpr ( '+' e= multExpr | '-' e= multExpr )* ;
-    public final int expr() throws RecognitionException {
-        int value = 0;
+    // src/java/antlr_intro/grammars/Expr.g:26:1: expr : multExpr ( ( '+' ^| '-' ^) multExpr )* ;
+    public final ExprParser.expr_return expr() throws RecognitionException {
+        ExprParser.expr_return retval = new ExprParser.expr_return();
+        retval.start = input.LT(1);
 
 
-        int e =0;
+        CommonTree root_0 = null;
 
+        Token char_literal10=null;
+        Token char_literal11=null;
+        ExprParser.multExpr_return multExpr9 =null;
+
+        ExprParser.multExpr_return multExpr12 =null;
+
+
+        CommonTree char_literal10_tree=null;
+        CommonTree char_literal11_tree=null;
 
         try {
-            // src/java/antlr_intro/grammars/Expr.g:23:5: (e= multExpr ( '+' e= multExpr | '-' e= multExpr )* )
-            // src/java/antlr_intro/grammars/Expr.g:23:9: e= multExpr ( '+' e= multExpr | '-' e= multExpr )*
+            // src/java/antlr_intro/grammars/Expr.g:26:5: ( multExpr ( ( '+' ^| '-' ^) multExpr )* )
+            // src/java/antlr_intro/grammars/Expr.g:26:9: multExpr ( ( '+' ^| '-' ^) multExpr )*
             {
-            pushFollow(FOLLOW_multExpr_in_expr92);
-            e=multExpr();
+            root_0 = (CommonTree)adaptor.nil();
+
+
+            pushFollow(FOLLOW_multExpr_in_expr148);
+            multExpr9=multExpr();
 
             state._fsp--;
 
+            adaptor.addChild(root_0, multExpr9.getTree());
 
-            value = e;
-
-            // src/java/antlr_intro/grammars/Expr.g:24:9: ( '+' e= multExpr | '-' e= multExpr )*
-            loop3:
-            do {
-                int alt3=3;
-                int LA3_0 = input.LA(1);
-
-                if ( (LA3_0==11) ) {
-                    alt3=1;
-                }
-                else if ( (LA3_0==12) ) {
-                    alt3=2;
-                }
-
-
-                switch (alt3) {
-            	case 1 :
-            	    // src/java/antlr_intro/grammars/Expr.g:24:13: '+' e= multExpr
-            	    {
-            	    match(input,11,FOLLOW_11_in_expr108); 
-
-            	    pushFollow(FOLLOW_multExpr_in_expr112);
-            	    e=multExpr();
-
-            	    state._fsp--;
-
-
-            	    value += e;
-
-            	    }
-            	    break;
-            	case 2 :
-            	    // src/java/antlr_intro/grammars/Expr.g:25:13: '-' e= multExpr
-            	    {
-            	    match(input,12,FOLLOW_12_in_expr128); 
-
-            	    pushFollow(FOLLOW_multExpr_in_expr132);
-            	    e=multExpr();
-
-            	    state._fsp--;
-
-
-            	    value -= e;
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop3;
-                }
-            } while (true);
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-
-        finally {
-        	// do for sure before leaving
-        }
-        return value;
-    }
-    // $ANTLR end "expr"
-
-
-
-    // $ANTLR start "multExpr"
-    // src/java/antlr_intro/grammars/Expr.g:29:1: multExpr returns [int value] : e= atom ( '*' e= atom )* ;
-    public final int multExpr() throws RecognitionException {
-        int value = 0;
-
-
-        int e =0;
-
-
-        try {
-            // src/java/antlr_intro/grammars/Expr.g:30:5: (e= atom ( '*' e= atom )* )
-            // src/java/antlr_intro/grammars/Expr.g:30:7: e= atom ( '*' e= atom )*
-            {
-            pushFollow(FOLLOW_atom_in_multExpr168);
-            e=atom();
-
-            state._fsp--;
-
-
-            value = e;
-
-            // src/java/antlr_intro/grammars/Expr.g:30:35: ( '*' e= atom )*
+            // src/java/antlr_intro/grammars/Expr.g:26:18: ( ( '+' ^| '-' ^) multExpr )*
             loop4:
             do {
                 int alt4=2;
                 int LA4_0 = input.LA(1);
 
-                if ( (LA4_0==10) ) {
+                if ( ((LA4_0 >= 11 && LA4_0 <= 12)) ) {
                     alt4=1;
                 }
 
 
                 switch (alt4) {
             	case 1 :
-            	    // src/java/antlr_intro/grammars/Expr.g:30:36: '*' e= atom
+            	    // src/java/antlr_intro/grammars/Expr.g:26:19: ( '+' ^| '-' ^) multExpr
             	    {
-            	    match(input,10,FOLLOW_10_in_multExpr173); 
+            	    // src/java/antlr_intro/grammars/Expr.g:26:19: ( '+' ^| '-' ^)
+            	    int alt3=2;
+            	    int LA3_0 = input.LA(1);
 
-            	    pushFollow(FOLLOW_atom_in_multExpr177);
-            	    e=atom();
+            	    if ( (LA3_0==11) ) {
+            	        alt3=1;
+            	    }
+            	    else if ( (LA3_0==12) ) {
+            	        alt3=2;
+            	    }
+            	    else {
+            	        NoViableAltException nvae =
+            	            new NoViableAltException("", 3, 0, input);
+
+            	        throw nvae;
+
+            	    }
+            	    switch (alt3) {
+            	        case 1 :
+            	            // src/java/antlr_intro/grammars/Expr.g:26:20: '+' ^
+            	            {
+            	            char_literal10=(Token)match(input,11,FOLLOW_11_in_expr152); 
+            	            char_literal10_tree = 
+            	            (CommonTree)adaptor.create(char_literal10)
+            	            ;
+            	            root_0 = (CommonTree)adaptor.becomeRoot(char_literal10_tree, root_0);
+
+
+            	            }
+            	            break;
+            	        case 2 :
+            	            // src/java/antlr_intro/grammars/Expr.g:26:25: '-' ^
+            	            {
+            	            char_literal11=(Token)match(input,12,FOLLOW_12_in_expr155); 
+            	            char_literal11_tree = 
+            	            (CommonTree)adaptor.create(char_literal11)
+            	            ;
+            	            root_0 = (CommonTree)adaptor.becomeRoot(char_literal11_tree, root_0);
+
+
+            	            }
+            	            break;
+
+            	    }
+
+
+            	    pushFollow(FOLLOW_multExpr_in_expr159);
+            	    multExpr12=multExpr();
 
             	    state._fsp--;
 
-
-            	    value *= e;
+            	    adaptor.addChild(root_0, multExpr12.getTree());
 
             	    }
             	    break;
@@ -367,111 +490,251 @@ public class ExprParser extends Parser {
 
             }
 
+            retval.stop = input.LT(-1);
+
+
+            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
+    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
         }
 
         finally {
         	// do for sure before leaving
         }
-        return value;
+        return retval;
+    }
+    // $ANTLR end "expr"
+
+
+    public static class multExpr_return extends ParserRuleReturnScope {
+        CommonTree tree;
+        public Object getTree() { return tree; }
+    };
+
+
+    // $ANTLR start "multExpr"
+    // src/java/antlr_intro/grammars/Expr.g:29:1: multExpr : atom ( '*' ^ atom )* ;
+    public final ExprParser.multExpr_return multExpr() throws RecognitionException {
+        ExprParser.multExpr_return retval = new ExprParser.multExpr_return();
+        retval.start = input.LT(1);
+
+
+        CommonTree root_0 = null;
+
+        Token char_literal14=null;
+        ExprParser.atom_return atom13 =null;
+
+        ExprParser.atom_return atom15 =null;
+
+
+        CommonTree char_literal14_tree=null;
+
+        try {
+            // src/java/antlr_intro/grammars/Expr.g:30:5: ( atom ( '*' ^ atom )* )
+            // src/java/antlr_intro/grammars/Expr.g:30:9: atom ( '*' ^ atom )*
+            {
+            root_0 = (CommonTree)adaptor.nil();
+
+
+            pushFollow(FOLLOW_atom_in_multExpr180);
+            atom13=atom();
+
+            state._fsp--;
+
+            adaptor.addChild(root_0, atom13.getTree());
+
+            // src/java/antlr_intro/grammars/Expr.g:30:14: ( '*' ^ atom )*
+            loop5:
+            do {
+                int alt5=2;
+                int LA5_0 = input.LA(1);
+
+                if ( (LA5_0==10) ) {
+                    alt5=1;
+                }
+
+
+                switch (alt5) {
+            	case 1 :
+            	    // src/java/antlr_intro/grammars/Expr.g:30:15: '*' ^ atom
+            	    {
+            	    char_literal14=(Token)match(input,10,FOLLOW_10_in_multExpr183); 
+            	    char_literal14_tree = 
+            	    (CommonTree)adaptor.create(char_literal14)
+            	    ;
+            	    root_0 = (CommonTree)adaptor.becomeRoot(char_literal14_tree, root_0);
+
+
+            	    pushFollow(FOLLOW_atom_in_multExpr186);
+            	    atom15=atom();
+
+            	    state._fsp--;
+
+            	    adaptor.addChild(root_0, atom15.getTree());
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop5;
+                }
+            } while (true);
+
+
+            }
+
+            retval.stop = input.LT(-1);
+
+
+            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+
+        finally {
+        	// do for sure before leaving
+        }
+        return retval;
     }
     // $ANTLR end "multExpr"
 
 
+    public static class atom_return extends ParserRuleReturnScope {
+        CommonTree tree;
+        public Object getTree() { return tree; }
+    };
+
 
     // $ANTLR start "atom"
-    // src/java/antlr_intro/grammars/Expr.g:33:1: atom returns [int value] : ( INT | ID | '(' expr ')' );
-    public final int atom() throws RecognitionException {
-        int value = 0;
+    // src/java/antlr_intro/grammars/Expr.g:33:1: atom : ( INT | ID | '(' ! expr ')' !);
+    public final ExprParser.atom_return atom() throws RecognitionException {
+        ExprParser.atom_return retval = new ExprParser.atom_return();
+        retval.start = input.LT(1);
 
 
-        Token INT4=null;
-        Token ID5=null;
-        int expr6 =0;
+        CommonTree root_0 = null;
 
+        Token INT16=null;
+        Token ID17=null;
+        Token char_literal18=null;
+        Token char_literal20=null;
+        ExprParser.expr_return expr19 =null;
+
+
+        CommonTree INT16_tree=null;
+        CommonTree ID17_tree=null;
+        CommonTree char_literal18_tree=null;
+        CommonTree char_literal20_tree=null;
 
         try {
-            // src/java/antlr_intro/grammars/Expr.g:34:5: ( INT | ID | '(' expr ')' )
-            int alt5=3;
+            // src/java/antlr_intro/grammars/Expr.g:33:5: ( INT | ID | '(' ! expr ')' !)
+            int alt6=3;
             switch ( input.LA(1) ) {
             case INT:
                 {
-                alt5=1;
+                alt6=1;
                 }
                 break;
             case ID:
                 {
-                alt5=2;
+                alt6=2;
                 }
                 break;
             case 8:
                 {
-                alt5=3;
+                alt6=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 5, 0, input);
+                    new NoViableAltException("", 6, 0, input);
 
                 throw nvae;
 
             }
 
-            switch (alt5) {
+            switch (alt6) {
                 case 1 :
-                    // src/java/antlr_intro/grammars/Expr.g:34:7: INT
+                    // src/java/antlr_intro/grammars/Expr.g:33:9: INT
                     {
-                    INT4=(Token)match(input,INT,FOLLOW_INT_in_atom202); 
+                    root_0 = (CommonTree)adaptor.nil();
 
-                    value = Integer.parseInt((INT4!=null?INT4.getText():null));
+
+                    INT16=(Token)match(input,INT,FOLLOW_INT_in_atom202); 
+                    INT16_tree = 
+                    (CommonTree)adaptor.create(INT16)
+                    ;
+                    adaptor.addChild(root_0, INT16_tree);
+
 
                     }
                     break;
                 case 2 :
-                    // src/java/antlr_intro/grammars/Expr.g:35:7: ID
+                    // src/java/antlr_intro/grammars/Expr.g:34:9: ID
                     {
-                    ID5=(Token)match(input,ID,FOLLOW_ID_in_atom212); 
+                    root_0 = (CommonTree)adaptor.nil();
 
-                     
-                                Integer v = (Integer)memory.get((ID5!=null?ID5.getText():null));
-                                if (v!=null) value = v.intValue();
-                                else System.err.println("undefined variable "+(ID5!=null?ID5.getText():null));
-                            
+
+                    ID17=(Token)match(input,ID,FOLLOW_ID_in_atom212); 
+                    ID17_tree = 
+                    (CommonTree)adaptor.create(ID17)
+                    ;
+                    adaptor.addChild(root_0, ID17_tree);
+
 
                     }
                     break;
                 case 3 :
-                    // src/java/antlr_intro/grammars/Expr.g:42:7: '(' expr ')'
+                    // src/java/antlr_intro/grammars/Expr.g:35:9: '(' ! expr ')' !
                     {
-                    match(input,8,FOLLOW_8_in_atom232); 
+                    root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_expr_in_atom234);
-                    expr6=expr();
+
+                    char_literal18=(Token)match(input,8,FOLLOW_8_in_atom222); 
+
+                    pushFollow(FOLLOW_expr_in_atom225);
+                    expr19=expr();
 
                     state._fsp--;
 
+                    adaptor.addChild(root_0, expr19.getTree());
 
-                    match(input,9,FOLLOW_9_in_atom236); 
-
-                    value = expr6;
+                    char_literal20=(Token)match(input,9,FOLLOW_9_in_atom227); 
 
                     }
                     break;
 
             }
+            retval.stop = input.LT(-1);
+
+
+            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
+    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
         }
 
         finally {
         	// do for sure before leaving
         }
-        return value;
+        return retval;
     }
     // $ANTLR end "atom"
 
@@ -480,26 +743,25 @@ public class ExprParser extends Parser {
 
  
 
-    public static final BitSet FOLLOW_stat_in_prog30 = new BitSet(new long[]{0x0000000000000172L});
-    public static final BitSet FOLLOW_expr_in_stat39 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat41 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_stat51 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_13_in_stat53 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_expr_in_stat55 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat57 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat67 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_multExpr_in_expr92 = new BitSet(new long[]{0x0000000000001802L});
-    public static final BitSet FOLLOW_11_in_expr108 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_multExpr_in_expr112 = new BitSet(new long[]{0x0000000000001802L});
-    public static final BitSet FOLLOW_12_in_expr128 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_multExpr_in_expr132 = new BitSet(new long[]{0x0000000000001802L});
-    public static final BitSet FOLLOW_atom_in_multExpr168 = new BitSet(new long[]{0x0000000000000402L});
-    public static final BitSet FOLLOW_10_in_multExpr173 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_atom_in_multExpr177 = new BitSet(new long[]{0x0000000000000402L});
+    public static final BitSet FOLLOW_stat_in_prog56 = new BitSet(new long[]{0x0000000000000172L});
+    public static final BitSet FOLLOW_expr_in_stat71 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat73 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_stat94 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_13_in_stat96 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_expr_in_stat98 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat100 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat120 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_multExpr_in_expr148 = new BitSet(new long[]{0x0000000000001802L});
+    public static final BitSet FOLLOW_11_in_expr152 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_12_in_expr155 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_multExpr_in_expr159 = new BitSet(new long[]{0x0000000000001802L});
+    public static final BitSet FOLLOW_atom_in_multExpr180 = new BitSet(new long[]{0x0000000000000402L});
+    public static final BitSet FOLLOW_10_in_multExpr183 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_atom_in_multExpr186 = new BitSet(new long[]{0x0000000000000402L});
     public static final BitSet FOLLOW_INT_in_atom202 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ID_in_atom212 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_8_in_atom232 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_expr_in_atom234 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_atom236 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_8_in_atom222 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_expr_in_atom225 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_atom227 = new BitSet(new long[]{0x0000000000000002L});
 
 }
