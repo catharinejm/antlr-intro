@@ -1,5 +1,9 @@
-// $ANTLR 3.4 src/java/antlr_intro/grammars/Expr.g 2012-05-16 21:49:57
+// $ANTLR 3.4 src/java/antlr_intro/grammars/Expr.g 2012-05-16 22:49:40
+
 package antlr_intro.grammars;
+
+import java.util.HashMap;
+
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -43,15 +47,18 @@ public class ExprParser extends Parser {
     public String getGrammarFileName() { return "src/java/antlr_intro/grammars/Expr.g"; }
 
 
+    HashMap memory = new HashMap();
+
+
 
     // $ANTLR start "prog"
-    // src/java/antlr_intro/grammars/Expr.g:6:1: prog : ( stat )+ ;
+    // src/java/antlr_intro/grammars/Expr.g:15:1: prog : ( stat )+ ;
     public final void prog() throws RecognitionException {
         try {
-            // src/java/antlr_intro/grammars/Expr.g:6:5: ( ( stat )+ )
-            // src/java/antlr_intro/grammars/Expr.g:6:7: ( stat )+
+            // src/java/antlr_intro/grammars/Expr.g:15:5: ( ( stat )+ )
+            // src/java/antlr_intro/grammars/Expr.g:15:7: ( stat )+
             {
-            // src/java/antlr_intro/grammars/Expr.g:6:7: ( stat )+
+            // src/java/antlr_intro/grammars/Expr.g:15:7: ( stat )+
             int cnt1=0;
             loop1:
             do {
@@ -65,9 +72,9 @@ public class ExprParser extends Parser {
 
                 switch (alt1) {
             	case 1 :
-            	    // src/java/antlr_intro/grammars/Expr.g:6:7: stat
+            	    // src/java/antlr_intro/grammars/Expr.g:15:7: stat
             	    {
-            	    pushFollow(FOLLOW_stat_in_prog23);
+            	    pushFollow(FOLLOW_stat_in_prog30);
             	    stat();
 
             	    state._fsp--;
@@ -104,10 +111,16 @@ public class ExprParser extends Parser {
 
 
     // $ANTLR start "stat"
-    // src/java/antlr_intro/grammars/Expr.g:8:1: stat : ( expr NEWLINE | ID '=' expr NEWLINE | NEWLINE );
+    // src/java/antlr_intro/grammars/Expr.g:17:1: stat : ( expr NEWLINE | ID '=' expr NEWLINE | NEWLINE );
     public final void stat() throws RecognitionException {
+        Token ID2=null;
+        int expr1 =0;
+
+        int expr3 =0;
+
+
         try {
-            // src/java/antlr_intro/grammars/Expr.g:8:5: ( expr NEWLINE | ID '=' expr NEWLINE | NEWLINE )
+            // src/java/antlr_intro/grammars/Expr.g:17:5: ( expr NEWLINE | ID '=' expr NEWLINE | NEWLINE )
             int alt2=3;
             switch ( input.LA(1) ) {
             case INT:
@@ -150,39 +163,43 @@ public class ExprParser extends Parser {
 
             switch (alt2) {
                 case 1 :
-                    // src/java/antlr_intro/grammars/Expr.g:8:7: expr NEWLINE
+                    // src/java/antlr_intro/grammars/Expr.g:17:7: expr NEWLINE
                     {
-                    pushFollow(FOLLOW_expr_in_stat32);
-                    expr();
+                    pushFollow(FOLLOW_expr_in_stat39);
+                    expr1=expr();
 
                     state._fsp--;
 
 
-                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat34); 
+                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat41); 
+
+                    System.out.println(expr1);
 
                     }
                     break;
                 case 2 :
-                    // src/java/antlr_intro/grammars/Expr.g:9:7: ID '=' expr NEWLINE
+                    // src/java/antlr_intro/grammars/Expr.g:18:7: ID '=' expr NEWLINE
                     {
-                    match(input,ID,FOLLOW_ID_in_stat42); 
+                    ID2=(Token)match(input,ID,FOLLOW_ID_in_stat51); 
 
-                    match(input,13,FOLLOW_13_in_stat44); 
+                    match(input,13,FOLLOW_13_in_stat53); 
 
-                    pushFollow(FOLLOW_expr_in_stat46);
-                    expr();
+                    pushFollow(FOLLOW_expr_in_stat55);
+                    expr3=expr();
 
                     state._fsp--;
 
 
-                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat48); 
+                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat57); 
+
+                    memory.put((ID2!=null?ID2.getText():null), new Integer(expr3));
 
                     }
                     break;
                 case 3 :
-                    // src/java/antlr_intro/grammars/Expr.g:10:7: NEWLINE
+                    // src/java/antlr_intro/grammars/Expr.g:19:7: NEWLINE
                     {
-                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat56); 
+                    match(input,NEWLINE,FOLLOW_NEWLINE_in_stat67); 
 
                     }
                     break;
@@ -204,48 +221,68 @@ public class ExprParser extends Parser {
 
 
     // $ANTLR start "expr"
-    // src/java/antlr_intro/grammars/Expr.g:13:1: expr : multExpr ( ( '+' | '-' ) multExpr )* ;
-    public final void expr() throws RecognitionException {
+    // src/java/antlr_intro/grammars/Expr.g:22:1: expr returns [int value] : e= multExpr ( '+' e= multExpr | '-' e= multExpr )* ;
+    public final int expr() throws RecognitionException {
+        int value = 0;
+
+
+        int e =0;
+
+
         try {
-            // src/java/antlr_intro/grammars/Expr.g:13:5: ( multExpr ( ( '+' | '-' ) multExpr )* )
-            // src/java/antlr_intro/grammars/Expr.g:13:7: multExpr ( ( '+' | '-' ) multExpr )*
+            // src/java/antlr_intro/grammars/Expr.g:23:5: (e= multExpr ( '+' e= multExpr | '-' e= multExpr )* )
+            // src/java/antlr_intro/grammars/Expr.g:23:9: e= multExpr ( '+' e= multExpr | '-' e= multExpr )*
             {
-            pushFollow(FOLLOW_multExpr_in_expr68);
-            multExpr();
+            pushFollow(FOLLOW_multExpr_in_expr92);
+            e=multExpr();
 
             state._fsp--;
 
 
-            // src/java/antlr_intro/grammars/Expr.g:13:16: ( ( '+' | '-' ) multExpr )*
+            value = e;
+
+            // src/java/antlr_intro/grammars/Expr.g:24:9: ( '+' e= multExpr | '-' e= multExpr )*
             loop3:
             do {
-                int alt3=2;
+                int alt3=3;
                 int LA3_0 = input.LA(1);
 
-                if ( ((LA3_0 >= 11 && LA3_0 <= 12)) ) {
+                if ( (LA3_0==11) ) {
                     alt3=1;
+                }
+                else if ( (LA3_0==12) ) {
+                    alt3=2;
                 }
 
 
                 switch (alt3) {
             	case 1 :
-            	    // src/java/antlr_intro/grammars/Expr.g:13:17: ( '+' | '-' ) multExpr
+            	    // src/java/antlr_intro/grammars/Expr.g:24:13: '+' e= multExpr
             	    {
-            	    if ( (input.LA(1) >= 11 && input.LA(1) <= 12) ) {
-            	        input.consume();
-            	        state.errorRecovery=false;
-            	    }
-            	    else {
-            	        MismatchedSetException mse = new MismatchedSetException(null,input);
-            	        throw mse;
-            	    }
+            	    match(input,11,FOLLOW_11_in_expr108); 
 
-
-            	    pushFollow(FOLLOW_multExpr_in_expr77);
-            	    multExpr();
+            	    pushFollow(FOLLOW_multExpr_in_expr112);
+            	    e=multExpr();
 
             	    state._fsp--;
 
+
+            	    value += e;
+
+            	    }
+            	    break;
+            	case 2 :
+            	    // src/java/antlr_intro/grammars/Expr.g:25:13: '-' e= multExpr
+            	    {
+            	    match(input,12,FOLLOW_12_in_expr128); 
+
+            	    pushFollow(FOLLOW_multExpr_in_expr132);
+            	    e=multExpr();
+
+            	    state._fsp--;
+
+
+            	    value -= e;
 
             	    }
             	    break;
@@ -267,26 +304,34 @@ public class ExprParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return ;
+        return value;
     }
     // $ANTLR end "expr"
 
 
 
     // $ANTLR start "multExpr"
-    // src/java/antlr_intro/grammars/Expr.g:16:1: multExpr : atom ( '*' atom )* ;
-    public final void multExpr() throws RecognitionException {
+    // src/java/antlr_intro/grammars/Expr.g:29:1: multExpr returns [int value] : e= atom ( '*' e= atom )* ;
+    public final int multExpr() throws RecognitionException {
+        int value = 0;
+
+
+        int e =0;
+
+
         try {
-            // src/java/antlr_intro/grammars/Expr.g:17:5: ( atom ( '*' atom )* )
-            // src/java/antlr_intro/grammars/Expr.g:17:7: atom ( '*' atom )*
+            // src/java/antlr_intro/grammars/Expr.g:30:5: (e= atom ( '*' e= atom )* )
+            // src/java/antlr_intro/grammars/Expr.g:30:7: e= atom ( '*' e= atom )*
             {
-            pushFollow(FOLLOW_atom_in_multExpr96);
-            atom();
+            pushFollow(FOLLOW_atom_in_multExpr168);
+            e=atom();
 
             state._fsp--;
 
 
-            // src/java/antlr_intro/grammars/Expr.g:17:12: ( '*' atom )*
+            value = e;
+
+            // src/java/antlr_intro/grammars/Expr.g:30:35: ( '*' e= atom )*
             loop4:
             do {
                 int alt4=2;
@@ -299,15 +344,17 @@ public class ExprParser extends Parser {
 
                 switch (alt4) {
             	case 1 :
-            	    // src/java/antlr_intro/grammars/Expr.g:17:13: '*' atom
+            	    // src/java/antlr_intro/grammars/Expr.g:30:36: '*' e= atom
             	    {
-            	    match(input,10,FOLLOW_10_in_multExpr99); 
+            	    match(input,10,FOLLOW_10_in_multExpr173); 
 
-            	    pushFollow(FOLLOW_atom_in_multExpr101);
-            	    atom();
+            	    pushFollow(FOLLOW_atom_in_multExpr177);
+            	    e=atom();
 
             	    state._fsp--;
 
+
+            	    value *= e;
 
             	    }
             	    break;
@@ -329,17 +376,25 @@ public class ExprParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return ;
+        return value;
     }
     // $ANTLR end "multExpr"
 
 
 
     // $ANTLR start "atom"
-    // src/java/antlr_intro/grammars/Expr.g:20:1: atom : ( INT | ID | '(' expr ')' );
-    public final void atom() throws RecognitionException {
+    // src/java/antlr_intro/grammars/Expr.g:33:1: atom returns [int value] : ( INT | ID | '(' expr ')' );
+    public final int atom() throws RecognitionException {
+        int value = 0;
+
+
+        Token INT4=null;
+        Token ID5=null;
+        int expr6 =0;
+
+
         try {
-            // src/java/antlr_intro/grammars/Expr.g:20:5: ( INT | ID | '(' expr ')' )
+            // src/java/antlr_intro/grammars/Expr.g:34:5: ( INT | ID | '(' expr ')' )
             int alt5=3;
             switch ( input.LA(1) ) {
             case INT:
@@ -367,31 +422,41 @@ public class ExprParser extends Parser {
 
             switch (alt5) {
                 case 1 :
-                    // src/java/antlr_intro/grammars/Expr.g:20:7: INT
+                    // src/java/antlr_intro/grammars/Expr.g:34:7: INT
                     {
-                    match(input,INT,FOLLOW_INT_in_atom115); 
+                    INT4=(Token)match(input,INT,FOLLOW_INT_in_atom202); 
+
+                    value = Integer.parseInt((INT4!=null?INT4.getText():null));
 
                     }
                     break;
                 case 2 :
-                    // src/java/antlr_intro/grammars/Expr.g:21:7: ID
+                    // src/java/antlr_intro/grammars/Expr.g:35:7: ID
                     {
-                    match(input,ID,FOLLOW_ID_in_atom123); 
+                    ID5=(Token)match(input,ID,FOLLOW_ID_in_atom212); 
+
+                     
+                                Integer v = (Integer)memory.get((ID5!=null?ID5.getText():null));
+                                if (v!=null) value = v.intValue();
+                                else System.err.println("undefined variable "+(ID5!=null?ID5.getText():null));
+                            
 
                     }
                     break;
                 case 3 :
-                    // src/java/antlr_intro/grammars/Expr.g:22:7: '(' expr ')'
+                    // src/java/antlr_intro/grammars/Expr.g:42:7: '(' expr ')'
                     {
-                    match(input,8,FOLLOW_8_in_atom131); 
+                    match(input,8,FOLLOW_8_in_atom232); 
 
-                    pushFollow(FOLLOW_expr_in_atom133);
-                    expr();
+                    pushFollow(FOLLOW_expr_in_atom234);
+                    expr6=expr();
 
                     state._fsp--;
 
 
-                    match(input,9,FOLLOW_9_in_atom135); 
+                    match(input,9,FOLLOW_9_in_atom236); 
+
+                    value = expr6;
 
                     }
                     break;
@@ -406,7 +471,7 @@ public class ExprParser extends Parser {
         finally {
         	// do for sure before leaving
         }
-        return ;
+        return value;
     }
     // $ANTLR end "atom"
 
@@ -415,24 +480,26 @@ public class ExprParser extends Parser {
 
  
 
-    public static final BitSet FOLLOW_stat_in_prog23 = new BitSet(new long[]{0x0000000000000172L});
-    public static final BitSet FOLLOW_expr_in_stat32 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat34 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_stat42 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_13_in_stat44 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_expr_in_stat46 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat48 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat56 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_multExpr_in_expr68 = new BitSet(new long[]{0x0000000000001802L});
-    public static final BitSet FOLLOW_set_in_expr71 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_multExpr_in_expr77 = new BitSet(new long[]{0x0000000000001802L});
-    public static final BitSet FOLLOW_atom_in_multExpr96 = new BitSet(new long[]{0x0000000000000402L});
-    public static final BitSet FOLLOW_10_in_multExpr99 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_atom_in_multExpr101 = new BitSet(new long[]{0x0000000000000402L});
-    public static final BitSet FOLLOW_INT_in_atom115 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_atom123 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_8_in_atom131 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_expr_in_atom133 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_atom135 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_stat_in_prog30 = new BitSet(new long[]{0x0000000000000172L});
+    public static final BitSet FOLLOW_expr_in_stat39 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat41 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_stat51 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_13_in_stat53 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_expr_in_stat55 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat57 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat67 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_multExpr_in_expr92 = new BitSet(new long[]{0x0000000000001802L});
+    public static final BitSet FOLLOW_11_in_expr108 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_multExpr_in_expr112 = new BitSet(new long[]{0x0000000000001802L});
+    public static final BitSet FOLLOW_12_in_expr128 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_multExpr_in_expr132 = new BitSet(new long[]{0x0000000000001802L});
+    public static final BitSet FOLLOW_atom_in_multExpr168 = new BitSet(new long[]{0x0000000000000402L});
+    public static final BitSet FOLLOW_10_in_multExpr173 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_atom_in_multExpr177 = new BitSet(new long[]{0x0000000000000402L});
+    public static final BitSet FOLLOW_INT_in_atom202 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_atom212 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_8_in_atom232 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_expr_in_atom234 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_atom236 = new BitSet(new long[]{0x0000000000000002L});
 
 }
