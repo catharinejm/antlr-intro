@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 
 export CLASSPATH=`lein classpath`
 
@@ -11,7 +11,10 @@ case "$1" in
     compile)
         find src/java -name \*.java -exec javac -d parslex {} \+
         ;;
+    clean)
+        rm -rf parslex/*
+        ;;
     *)
-        echo "Usage: $0 (generate|compile)"
+        echo "Usage: $0 (generate|compile|clean)"
         ;;
 esac
