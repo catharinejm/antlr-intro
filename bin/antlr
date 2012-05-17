@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -ex
+
+export CLASSPATH=`lein classpath`
+
+case "$1" in
+    generate)
+        java org.antlr.Tool src/java/antlr_intro/grammars/Expr.g
+        ;;
+    compile)
+        find src/java -name \*.java -exec javac -d parslex {} \+
+        ;;
+    *)
+        echo "Usage: $0 (generate|compile)"
+        ;;
+esac
