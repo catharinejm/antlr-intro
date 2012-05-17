@@ -1,25 +1,45 @@
 grammar Expr;
 
-@header {package antlr_intro.grammars;}
+@header {
+package antlr_intro.grammars;
+
+import java.util.HashMap;
+}
+
+@members {
+HashMap memory = new HashMap();
+}
+
 @lexer::header {package antlr_intro.grammars;}
 
 prog: stat+ ;
 
-stat: expr NEWLINE
-    | ID '=' expr NEWLINE
+stat: expr NEWLINE {System.out.println($expr.value);}
+    | ID '=' expr NEWLINE {memory.put($ID.text, new Integer($expr.value));}
     | NEWLINE
     ;
 
-expr: multExpr (('+'|'-') multExpr)*
+expr returns [int value]
+    :   e=multExpr {$value = $e.value;}
+        (   '+' e=multExpr {$value += $e.value;}
+        |   '-' e=multExpr {$value -= $e.value;}
+        )*
     ;
 
-multExpr
-    : atom ('*' atom)*
+multExpr returns [int value]
+    : e=atom {$value = $e.value;} ('*' e=atom {$value *= $e.value;})*
     ;
 
-atom: INT
-    | ID
-    | '(' expr ')'
+atom returns [int value]
+    : INT {$value = Integer.parseInt($INT.text);}
+    | ID 
+        { 
+            Integer v = (Integer)memory.get($ID.text);
+            if (v!=null) $value = v.intValue();
+            else System.err.println("undefined variable "+$ID.text);
+        }
+
+    | '(' expr ')' {$value = $expr.value;}
     ;
 
 ID  : ('a'..'z'|'A'..'Z')+ ;
